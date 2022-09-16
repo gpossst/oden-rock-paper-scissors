@@ -81,5 +81,9 @@ function playGame() {
         console.log(roundNoti);
     }
 
-    return playerScore;
+    if (playerScore >= 3) {
+        return "You won with a score of " + playerScore + " to " + computerScore +"!";
+    } else {
+        return "You lost with a score of " + computerScore + " to " + playerScore +"!";
+    }
 }
