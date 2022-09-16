@@ -3,29 +3,19 @@ let playerEntry
 let playerSelection 
 let playerScore = 0
 let computerScore = 0
-
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        playRound();
-        
-    }
-}
+let roundOut
+let roundNoti
 
 function getComputerChoice() {
-    const randomNumber = Math.random()*100;
-
-    if (randomNumber <= 33) {
+    randomNumber = (Math.floor(Math.random()*3));
+    
+    if (randomNumber === 0) {
         computerSelection = 'rock';
-            //*rock*//
-    } else if (randomNumber >= 67) {
+    } else if (randomNumber === 1) {
         computerSelection = 'paper';
-            //*paper*//
-    } else {
+    } else if (randomNumber === 2) {
         computerSelection = 'scissors';
-            //*scissors*//
     }
-
-    return(computerSelection);
 }
 
 function getPlayerChoice() {
@@ -36,29 +26,60 @@ function getPlayerChoice() {
 function playRound() {
     getComputerChoice();
     getPlayerChoice();
+    playerSelection = playerEntry.toLowerCase();
 
     if (playerSelection == 'rock' && computerSelection == 'rock') {
-        return 'You both chose rock, play again!';
+        roundOut = 0;
+        //return 'You both chose rock, play again!';//
     } else if (playerSelection == 'paper' && computerSelection == 'paper') {
-        return 'You both chose paper, play again!';
+        roundOut = 0;
+        //return 'You both chose paper, play again!';//
     } else if (playerSelection == 'scissors' && computerSelection == 'scissors') {
-        return 'You both chose scissors, play again!';
+        roundOut = 0;
+        //return 'You both chose scissors, play again!';//
     } else if (playerSelection == 'rock' && computerSelection == 'paper') {
-        return 'Rock loses to paper, you lose!';
+        roundOut = 1;
+        //return 'Rock loses to paper, you lose!';//
     } else if (playerSelection == 'rock' && computerSelection == 'scissors') {
-        return 'Rock beats scissors, you win!';
+        roundOut = 2;
+        //return 'Rock beats scissors, you win!';//
     } else if (playerSelection == 'paper' && computerSelection == 'scissors') {
-        return 'Scissors beat paper, you lose!';
+        roundOut = 1
+        //return 'Scissors beat paper, you lose!';//
     } else if (playerSelection == 'paper' && computerSelection == 'rock') {
-        return 'Paper beats rock, you win!';
+        roundOut = 2
+        //return 'Paper beats rock, you win!';//
     } else if (playerSelection == 'scissors' && computerSelection == 'rock') {
-        return 'Rock beats scissors, you lose!';
+        roundOut = 1
+        //return 'Rock beats scissors, you lose!';//
     } else if (playerSelection == 'scissors' && computerSelection == 'paper') {
-        return 'Scissors beat paper, you win!';
+        roundOut = 2
+        //return 'Scissors beat paper, you win!';//
     } else {
-        return 'Something went wrong!';
+        roundOut = 3
+        //return 'Something went wrong!';//
     }
+
+    return roundOut
 }
 
 
+function playGame() {
+    for (let i = 0; i < 5; i++) {
+        playRound();
 
+        if (roundOut === 1) {
+            computerScore++;
+            roundNoti = 'You lose the round!';
+        } else if (roundOut === 2) {
+            playerScore++;
+            roundNoti = 'You win the round!';
+        } else {
+            i--;
+            roundNoti = 'Replay the round!';
+        }
+        console.log(roundNoti);
+    }
+
+    return playerScore;
+}
