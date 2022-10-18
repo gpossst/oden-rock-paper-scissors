@@ -1,89 +1,71 @@
-let computerSelection
-let playerEntry
-let playerSelection 
-let playerScore = 0
-let computerScore = 0
-let roundOut
-let roundNoti
+const selectionButtons = document.querySelectorAll('[data-selection]')
+const finalColumn = document.querySelector('[data-final-column]')
+const computerScoreSpan = document.querySelector('[data-computer-score]')
+const yourScoreSpan = document.querySelector('[data-your-score]')
 
-function getComputerChoice() {
-    randomNumber = (Math.floor(Math.random()*3));
+const SELECTIONS = [
+    {
+        name: 'rock',
+        emoji: '✊',
+        beats: 'scissors'
+    },
+    {
+        name: 'paper',
+        emoji: '✋',
+        beats: 'rock'
+    },
+    {
+        name: 'scissors',
+        emoji: '✌',
+        beats: 'paper'
+    }
+]
+
+selectionButtons.forEach(selectionButton => {
+    selectionButton.addEventListener('click', e => {
+        const selectionName = selectionButton.dataset.selection;
+        const selection = SELECTIONS.find(selection => selection.name === selectionName);
+        makeSelection(selection);
+    })
+})
+
+function makeSelection(selection) {
+    const computerSelection = randomSelection();
+    const youreWinner = isWinner(selection, computerSelection);
+    const computerWinner = isWinner(computerSelection, selection);
+
+    addSelectionResult(computerSelection, computerWinner);
+    addSelectionResult(selection, youreWinner);
+
+    if (youreWinner) incrementScore(yourScoreSpan);
+    if (computerWinner) incrementScore(computerScoreSpan);
+}
+
+function incrementScore(scoreSpan) {
+    scoreSpan.innerText = parseInt(scoreSpan.innerText)+1;
+    const winDeclaration = document.querySelector('.winDeclaration');
+
+    if (computerScoreSpan === 5) {
+        winDeclaration.textContent = "You lose!";
+    } else if (yourScoreSpan === 5) {
+        winDeclaration.textContent = "You win!";
+    }
     
-    if (randomNumber === 0) {
-        computerSelection = 'rock';
-    } else if (randomNumber === 1) {
-        computerSelection = 'paper';
-    } else if (randomNumber === 2) {
-        computerSelection = 'scissors';
-    }
 }
 
-function getPlayerChoice() {
-    playerEntry = prompt('Rock, paper, or scissors?');
-    playerSelection = playerEntry.toLowerCase();
+function addSelectionResult(selection, winner) {
+    const div = document.createElement('div');
+    div.innerText = selection.emoji;
+    div.classList.add('result-selection');
+    if (winner) div.classList.add('winner');
+    finalColumn.after(div);
 }
 
-function playRound() {
-    getComputerChoice();
-    getPlayerChoice();
-    playerSelection = playerEntry.toLowerCase();
-
-    if (playerSelection == 'rock' && computerSelection == 'rock') {
-        roundOut = 0;
-        //return 'You both chose rock, play again!';//
-    } else if (playerSelection == 'paper' && computerSelection == 'paper') {
-        roundOut = 0;
-        //return 'You both chose paper, play again!';//
-    } else if (playerSelection == 'scissors' && computerSelection == 'scissors') {
-        roundOut = 0;
-        //return 'You both chose scissors, play again!';//
-    } else if (playerSelection == 'rock' && computerSelection == 'paper') {
-        roundOut = 1;
-        //return 'Rock loses to paper, you lose!';//
-    } else if (playerSelection == 'rock' && computerSelection == 'scissors') {
-        roundOut = 2;
-        //return 'Rock beats scissors, you win!';//
-    } else if (playerSelection == 'paper' && computerSelection == 'scissors') {
-        roundOut = 1
-        //return 'Scissors beat paper, you lose!';//
-    } else if (playerSelection == 'paper' && computerSelection == 'rock') {
-        roundOut = 2
-        //return 'Paper beats rock, you win!';//
-    } else if (playerSelection == 'scissors' && computerSelection == 'rock') {
-        roundOut = 1
-        //return 'Rock beats scissors, you lose!';//
-    } else if (playerSelection == 'scissors' && computerSelection == 'paper') {
-        roundOut = 2
-        //return 'Scissors beat paper, you win!';//
-    } else {
-        roundOut = 3
-        //return 'Something went wrong!';//
-    }
-
-    return roundOut
+function isWinner(selection, opponentSelection) {
+    return selection.beats === opponentSelection.name;
 }
 
-
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        playRound();
-
-        if (roundOut === 1) {
-            computerScore++;
-            roundNoti = 'You lose the round!';
-        } else if (roundOut === 2) {
-            playerScore++;
-            roundNoti = 'You win the round!';
-        } else {
-            i--;
-            roundNoti = 'Replay the round!';
-        }
-        console.log(roundNoti);
-    }
-
-    if (playerScore >= 3) {
-        return "You won with a score of " + playerScore + " to " + computerScore +"!";
-    } else {
-        return "You lost with a score of " + computerScore + " to " + playerScore +"!";
-    }
+function randomSelection() {
+    const randomIndex = Math.floor(Math.random() * SELECTIONS.length);
+    return SELECTIONS[randomIndex];
 }
