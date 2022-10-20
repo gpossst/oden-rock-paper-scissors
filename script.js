@@ -6,6 +6,37 @@ let computerScore = 0
 let roundOut
 let roundNoti
 
+function alertFunction() {
+    alert("Yeah this works");
+}
+
+const rockBtn = document.querySelector('.rockBtn');
+rockBtn.addEventListener('click', function(e){
+    playRound('rock');
+});
+
+const paperBtn = document.querySelector('.paperBtn');
+paperBtn.addEventListener('click', function(e){
+    playRound('paper');
+});
+
+const scissorsBtn = document.querySelector('.scissorsBtn');
+scissorsBtn.addEventListener('click', function(e){
+    playRound('scissors');
+});
+
+function roundOutcome(roundOut){
+    if (roundOut === 1) {
+        roundNoti = 'You lose the round!';
+    } else if (roundOut === 2) {
+        roundNoti = 'You win the round!';
+    } else {
+        i--;
+        roundNoti = 'Replay the round!';
+    }
+    alert(roundNoti);
+}
+
 function getComputerChoice() {
     randomNumber = (Math.floor(Math.random()*3));
     
@@ -23,10 +54,10 @@ function getPlayerChoice() {
     playerSelection = playerEntry.toLowerCase();
 }
 
-function playRound() {
+function playRound(playerSelection) {
     getComputerChoice();
-    getPlayerChoice();
-    playerSelection = playerEntry.toLowerCase();
+    /* getPlayerChoice();
+    playerSelection = playerEntry.toLowerCase(); */
 
     if (playerSelection == 'rock' && computerSelection == 'rock') {
         roundOut = 0;
@@ -60,7 +91,7 @@ function playRound() {
         //return 'Something went wrong!';//
     }
 
-    return roundOut
+    roundOutcome(roundOut);
 }
 
 
