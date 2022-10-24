@@ -5,6 +5,10 @@ let playerScore = 0
 let computerScore = 0
 let roundOut
 let roundNoti
+const roundOutput = document.querySelector('#roundOutput')
+const computerScoreOut = document.querySelector('#computerScoreOut')
+const playerScoreOut = document.querySelector('#playerScoreOut')
+const gameOutput = document.querySelector('#gameOutput')
 
 function alertFunction() {
     alert("Yeah this works");
@@ -13,28 +17,42 @@ function alertFunction() {
 const rockBtn = document.querySelector('.rockBtn');
 rockBtn.addEventListener('click', function(e){
     playRound('rock');
+    editScores(playerScore,computerScore);
+    winCheck(playerScore,computerScore);
 });
 
 const paperBtn = document.querySelector('.paperBtn');
 paperBtn.addEventListener('click', function(e){
     playRound('paper');
+    editScores(playerScore,computerScore);
+    winCheck(playerScore,computerScore);
 });
 
 const scissorsBtn = document.querySelector('.scissorsBtn');
 scissorsBtn.addEventListener('click', function(e){
     playRound('scissors');
+    editScores(playerScore,computerScore);
+    winCheck(playerScore,computerScore);
 });
 
 function roundOutcome(roundOut){
     if (roundOut === 1) {
-        roundNoti = 'You lose the round!';
+        roundOutput.textContent = 'You lose the round!';
+        computerScore++;
     } else if (roundOut === 2) {
-        roundNoti = 'You win the round!';
+        roundOutput.textContent = 'You win the round!';
+        playerScore++;
     } else {
         i--;
-        roundNoti = 'Replay the round!';
-    }
-    alert(roundNoti);
+        roundOutput.textContent = 'Replay the round!';
+    };
+
+
+}
+
+function editScores(playerScore, computerScore){
+    computerScoreOut.textContent = "Computer Score: " + computerScore;
+    playerScoreOut.textContent = "Player Score: " + playerScore;
 }
 
 function getComputerChoice() {
@@ -94,8 +112,20 @@ function playRound(playerSelection) {
     roundOutcome(roundOut);
 }
 
+function winCheck(playerScore,computerScore){
+    if (playerScore === 5) {
+        gameOutput.textContent = "You've won 5 rounds. You win!";
+        playerScore = 0;
+        computerScore = 0;
+    } else if (computerScore === 5) {
+        gameOutput.textContent = "The computer has won 5 rounds. You lose!";
+        playerScore = 0;
+        computerScore = 0;
+    }
+}
 
-function playGame() {
+
+/* function playGame() {
     for (let i = 0; i < 5; i++) {
         playRound();
 
@@ -117,4 +147,4 @@ function playGame() {
     } else {
         return "You lost with a score of " + computerScore + " to " + playerScore +"!";
     }
-}
+} */

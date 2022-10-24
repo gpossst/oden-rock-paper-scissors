@@ -12,4 +12,24 @@ button {
     font-size: 50px;
     background-color: white;
     border: none;
+    cursor: pointer;
+}
+
+#roundOutput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#scores {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+#gameOutput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
